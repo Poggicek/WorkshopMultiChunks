@@ -37,14 +37,14 @@ void Detour_PrepareWorkshopUpload(void* a1, void* str, bool a3)
     if (!std::filesystem::exists(addonPath / (mapName + "_dir.vpk")))
     {
         Error("Addon path does not exist: %s\n", addonPath.c_str());
-	    return;
+        return;
     }
 
     for (const auto& entry : std::filesystem::directory_iterator(addonPath))
     {
-		auto& path = entry.path();
-		auto filename = path.filename().string();
-		auto ext = path.extension().string();
+        auto& path = entry.path();
+        auto filename = path.filename().string();
+        auto ext = path.extension().string();
 
         if (ext == ".vpk" && filename.find(mapName) == 0)
         {
@@ -55,9 +55,8 @@ void Detour_PrepareWorkshopUpload(void* a1, void* str, bool a3)
                 auto replacedString = replace(filename, mapName, std::to_string(workshopId));
                 std::filesystem::rename(path, addonPath / "vpks" / std::to_string(workshopId) / replacedString);
             }
-		}
-	}
-
+        }
+    }
 
     g_prepareWorkshopUpload(a1, str, a3);
 }
