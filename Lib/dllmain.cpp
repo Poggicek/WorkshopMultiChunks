@@ -31,8 +31,9 @@ void Detour_PrepareWorkshopUpload(void* a1, void* str, bool a3)
 
     auto mapName = p.stem().string();
     auto addonPath = p.parent_path();
+    Info("Map name: %s\n", p.string().c_str());
     Info("Map name: %s\n", mapName.c_str());
-    Info("Addon path: %s\n", addonPath.c_str());
+    Info("Addon path: %s\n", addonPath.string().c_str());
 
     if (!std::filesystem::exists(addonPath / (mapName + "_dir.vpk")))
     {
@@ -40,11 +41,15 @@ void Detour_PrepareWorkshopUpload(void* a1, void* str, bool a3)
         return;
     }
 
+    std::filesystem::create_directory(addonPath / "vpks" / std::to_string(workshopId));
+
     for (const auto& entry : std::filesystem::directory_iterator(addonPath))
     {
         auto& path = entry.path();
         auto filename = path.filename().string();
         auto ext = path.extension().string();
+
+        
 
         if (ext == ".vpk" && filename.find(mapName) == 0)
         {
